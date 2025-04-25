@@ -1,19 +1,32 @@
 package com.ecommerce.project.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Product {
+    // Add validation here as to what is mandatory and what is not, size, etc...
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
+
+    @Size(min = 3, message = "Product name must contain at least 3 characters")
     private String productName;
+
     private String image;
+
+    @Size(min = 6, message = "Product name must contain at least 6 characters")
     private String description;
+
     private Integer quantity;
+
     private double price;
+
     private double discount;
+
     private double specialPrice;
 
     @ManyToOne

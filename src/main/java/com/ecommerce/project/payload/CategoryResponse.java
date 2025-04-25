@@ -16,8 +16,13 @@ public class CategoryResponse {
     public CategoryResponse() {
     }
 
-    public CategoryResponse(List<CategoryDTO> content) {
+    public CategoryResponse(List<CategoryDTO> content, Long totalElements, Integer pageNumber, Integer pageSize, Integer totalPages, boolean lastPage) {
         this.content = content;
+        this.totalElements = totalElements;
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.totalPages = totalPages;
+        this.lastPage = lastPage;
     }
 
     public List<CategoryDTO> getContent() {

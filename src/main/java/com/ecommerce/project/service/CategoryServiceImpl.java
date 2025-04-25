@@ -42,6 +42,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (categories.isEmpty()){
             throw new APIException("No categories found!");
         }
+
         List<CategoryDTO> categoryDTOS = categories.stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class))
                 .toList();
@@ -81,7 +82,6 @@ public class CategoryServiceImpl implements CategoryService{
         Category category = modelMapper.map(categoryDTO, Category.class);
 
         category.setCategoryId(categoryId);
-
         existingCategory = categoryRepository.save(category);
 
         return modelMapper.map(existingCategory, CategoryDTO.class);
