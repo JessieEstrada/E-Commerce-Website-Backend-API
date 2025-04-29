@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "products")
 public class Product {
     // Add validation here as to what is mandatory and what is not, size, etc...
 
@@ -33,10 +34,14 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User user;
+
     public Product() {
     }
 
-    public Product(Long productId, String productName, String image, String description, Integer quantity, double price, double discount, double specialPrice, Category category) {
+    public Product(Long productId, String productName, String image, String description, Integer quantity, double price, double discount, double specialPrice, Category category, User user) {
         this.productId = productId;
         this.productName = productName;
         this.image = image;
@@ -46,6 +51,7 @@ public class Product {
         this.discount = discount;
         this.specialPrice = specialPrice;
         this.category = category;
+        this.user = user;
     }
 
     public Long getProductId() {
@@ -118,5 +124,29 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", specialPrice=" + specialPrice +
+                ", category=" + category +
+                ", user=" + user +
+                '}';
     }
 }

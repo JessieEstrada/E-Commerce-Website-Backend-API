@@ -22,6 +22,9 @@ public class Role {
         this.roleId = roleId;
         this.roleName = roleName;
     }
+    public Role(AppRole roleName) {
+        this.roleName = roleName;
+    }
 
     public Integer getRoleId() {
         return roleId;
@@ -38,4 +41,5 @@ public class Role {
     public void setRoleName(AppRole roleName) {
         this.roleName = roleName;
     }
+
 }
