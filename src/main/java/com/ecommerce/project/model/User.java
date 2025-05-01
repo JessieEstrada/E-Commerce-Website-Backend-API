@@ -52,23 +52,25 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "address_id"))
     private List<Address> addresses = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private Cart cart;
 
     @OneToMany(mappedBy = "user",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true)
     private Set<Product> products;
 
-
-
     public User() {
     }
 
-    public User(Long userId, String userName, String email, String password, Set<Role> roles, Set<Product> products) {
+    public User(Long userId, String userName, String email, String password, Set<Role> roles, List<Address> addresses, Cart cart, Set<Product> products) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.addresses = addresses;
+        this.cart = cart;
         this.products = products;
     }
 
@@ -126,15 +128,19 @@ public class User {
         this.products = products;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                ", products=" + products +
-                '}';
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }
