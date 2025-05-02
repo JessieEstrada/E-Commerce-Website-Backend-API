@@ -18,13 +18,20 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    private Integer quantity;
+    private double discount;
+    private double productPrice;
+
     public CartItem() {
     }
 
-    public CartItem(Long cartItemId, Cart cart, Product product) {
+    public CartItem(Long cartItemId, Cart cart, Product product, Integer quantity, double discount, double productPrice) {
         this.cartItemId = cartItemId;
         this.cart = cart;
         this.product = product;
+        this.quantity = quantity;
+        this.discount = discount;
+        this.productPrice = productPrice;
     }
 
     public Long getCartItemId() {
@@ -51,12 +58,27 @@ public class CartItem {
         this.product = product;
     }
 
-    @Override
-    public String toString() {
-        return "CartItem{" +
-                "cartItemId=" + cartItemId +
-                ", cart=" + cart +
-                ", product=" + product +
-                '}';
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 }
