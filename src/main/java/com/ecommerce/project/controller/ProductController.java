@@ -18,10 +18,9 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-    // use valid annotations here for exceptions and such
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @PostMapping("/admin/categories/{categoryId}/product")
     public ResponseEntity<ProductDTO> addProduct(@Valid @PathVariable Long categoryId, @RequestBody ProductDTO productDTO){

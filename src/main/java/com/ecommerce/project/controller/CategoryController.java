@@ -44,13 +44,4 @@ public class CategoryController {
         CategoryDTO updatedCategory = categoryService.updateCategory(categoryDTO, categoryId);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
-
-
-    /*  MY EXAMPLE
-    @GetMapping("/public/categories/As")
-    public ResponseEntity<CategoryResponse> getAllCategoriesAs() {
-        CategoryResponse categoryResponse = categoryService.getAllCategoriesAs();
-        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
-    }
-    */
 }
