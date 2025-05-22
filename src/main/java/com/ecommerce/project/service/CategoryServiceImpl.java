@@ -87,24 +87,3 @@ public class CategoryServiceImpl implements CategoryService{
         return modelMapper.map(existingCategory, CategoryDTO.class);
     }
 }
-
-
-
-/*  MY EXAMPLE
-
-@Override
-public CategoryResponse getAllCategoriesAs() {
-    List<Category> categoriesInDB = categoryRepository.findAll();
-
-    List<CategoryDTO> categoryDTOS = categoriesInDB.stream()
-            .filter(category -> category.getCategoryName().toLowerCase().startsWith("a"))
-            .map(category -> modelMapper.map(category, CategoryDTO.class))
-            .toList();
-    if(categoryDTOS.isEmpty()){
-        throw new APIException("No categories found! With A");
-    }
-    CategoryResponse categoryResponse= new CategoryResponse();
-    categoryResponse.setContent(categoryDTOS);
-    return categoryResponse;
-}
-*/

@@ -27,6 +27,10 @@ public class Address {
     private String city;
 
     @NotBlank
+    @Size(min = 2, message = "State name must be atleast 2 characters")
+    private String state;
+
+    @NotBlank
     @Size(min = 2, message = "Country must be at least 2 characters")
     private String country;
 
@@ -34,19 +38,20 @@ public class Address {
     @Size(min = 5, message = "ZIP code must be at least 5 characters")
     private String zipCode;
 
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Address() {
     }
 
-    public Address(String zipCode, String country, String city, String buildingName, String street, Long addressId) {
-        this.zipCode = zipCode;
-        this.country = country;
-        this.city = city;
-        this.buildingName = buildingName;
+    public Address(String street, String buildingName, String city, String state, String country, String zipCode) {
         this.street = street;
-        this.addressId = addressId;
+        this.buildingName = buildingName;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipCode = zipCode;
     }
 
     public Long getAddressId() {
@@ -81,6 +86,14 @@ public class Address {
         this.city = city;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -97,12 +110,11 @@ public class Address {
         this.zipCode = zipCode;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
-

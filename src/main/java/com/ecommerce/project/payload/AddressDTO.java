@@ -9,20 +9,23 @@ public class AddressDTO {
 
     private String city;
 
+    private String state;
+
     private String country;
 
     private String zipCode;
 
-    public AddressDTO(Long addressId, String street, String buildingName, String city, String country, String zipCode) {
+    public AddressDTO() {
+    }
+
+    public AddressDTO(Long addressId, String street, String buildingName, String city, String state, String country, String zipCode) {
         this.addressId = addressId;
         this.street = street;
         this.buildingName = buildingName;
         this.city = city;
+        this.state = state;
         this.country = country;
         this.zipCode = zipCode;
-    }
-
-    public AddressDTO() {
     }
 
     public Long getAddressId() {
@@ -55,6 +58,14 @@ public class AddressDTO {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getCountry() {
