@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -40,8 +41,8 @@ public class CartController {
     @GetMapping("/carts/users/cart")
     public ResponseEntity<CartDTO> getCurrentUserCart(){
         String emailId = authUtil.loggedInEmail();
-        Cart cart = cartRepository.findCartByEmail(emailId);
-        Long cartId = cart.getCartId();
+        Optional<Cart> cart = cartRepository.findCartByEmail(emailId);
+        Long cartId = cart.get().getCartId();
         CartDTO currentUserCart = cartService.getCart(emailId, cartId);
         return new ResponseEntity<CartDTO>(currentUserCart, HttpStatus.OK);
     }

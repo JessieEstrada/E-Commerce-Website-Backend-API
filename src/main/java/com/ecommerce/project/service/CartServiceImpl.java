@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -134,8 +135,8 @@ public class CartServiceImpl implements CartService{
     public CartDTO updateProductQuantityInCart(Long productId, Integer quantity) {
 
         String emailId = authUtil.loggedInEmail();
-        Cart userCart = cartRepository.findCartByEmail(emailId);
-        Long cartId  = userCart.getCartId();
+        Optional<Cart> userCart = cartRepository.findCartByEmail(emailId);
+        Long cartId  = userCart.get().getCartId();
 
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", cartId));
@@ -245,16 +246,14 @@ public class CartServiceImpl implements CartService{
     }
 
     private Cart createCart() {
-        Cart userCart  = cartRepository.findCartByEmail(authUtil.loggedInEmail());
-        if(userCart != null){
-            return userCart;
+        Optional<Cart> userCart = cartRepository.findCartByEmail(authUtil.loggedInEmail());
+        if (userCart.isPresent()) {
+            return userCart.get();
         }
 
         Cart cart = new Cart();
         cart.setTotalPrice(0.00);
         cart.setUser(authUtil.loggedInUser());
-        Cart newCart =  cartRepository.save(cart);
-
-        return newCart;
+        return cartRepository.save(cart);
     }
 }
