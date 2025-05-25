@@ -20,7 +20,7 @@ public class OrderController {
     @Autowired
     private AuthUtil authUtil;
 
-    @PostMapping("/order/users/payments/{paymentMethod")
+    @PostMapping("/order/users/payments/{paymentMethod}")
     public ResponseEntity<OrderDTO> orderProducts(@PathVariable String paymentMethod, @RequestBody OrderRequestDTO orderRequestDTO){
         String emailId = authUtil.loggedInEmail();
         OrderDTO orderDTO = orderService.placeOrder(

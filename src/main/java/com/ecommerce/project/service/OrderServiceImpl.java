@@ -5,18 +5,18 @@ import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.model.*;
 import com.ecommerce.project.payload.OrderDTO;
 import com.ecommerce.project.payload.OrderItemDTO;
-import com.ecommerce.project.payload.OrderRequestDTO;
-import com.ecommerce.project.payload.PaymentDTO;
 import com.ecommerce.project.repositories.*;
 import jakarta.transaction.Transactional;
-import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
@@ -46,35 +46,36 @@ public class OrderServiceImpl implements OrderService{
     @Override
     @Transactional
     public OrderDTO placeOrder(String emailId, Long addressId, String paymentMethod, String pgName, String pgPaymentId, String pgStatus, String pgResponseMessage) {
-        // Get user Cart
-        Cart cart = cartRepository.findCartByEmail(emailId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart", "email", emailId));
+        Optional<Cart> cart = cartRepository.findCartByEmail(emailId);
+        if (cart.isEmpty()) {
+            throw new ResourceNotFoundException("Cart", "email", emailId);
+        }
+
 
         Address address = addressRepository.findById(addressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", addressId));
 
-        // Create a new order with payment info
         Order order = new Order();
         order.setEmail(emailId);
         order.setOrderDate(LocalDate.now());
-        order.setTotalAmount(cart.getTotalPrice());
-        order.setOrderStatus("Order Accepted!");
+        order.setTotalAmount(cart.get().getTotalPrice());
+        order.setOrderStatus("Order Accepted !");
         order.setAddress(address);
 
         Payment payment = new Payment(paymentMethod, pgPaymentId, pgStatus, pgResponseMessage, pgName);
         payment.setOrder(order);
         payment = paymentRepository.save(payment);
         order.setPayment(payment);
+
         Order savedOrder = orderRepository.save(order);
 
-        // Get items from the cart into the order items
-        List<CartItem> cartItems = cart.getCartItems();
-        if (cartItems.isEmpty()){
-            throw new APIException("Cart is Empty");
+        List<CartItem> cartItems = cart.get().getCartItems();
+        if (cartItems.isEmpty()) {
+            throw new APIException("Cart is empty");
         }
-        List<OrderItem> orderItems = new ArrayList<>();
 
-        for (CartItem cartItem: cartItems){
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (CartItem cartItem : cartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setQuantity(cartItem.getQuantity());
@@ -86,7 +87,7 @@ public class OrderServiceImpl implements OrderService{
 
         orderItems = orderItemRepository.saveAll(orderItems);
 
-        cart.getCartItems().forEach(item -> {
+        cart.get().getCartItems().forEach(item -> {
             int quantity = item.getQuantity();
             Product product = item.getProduct();
 
@@ -97,18 +98,14 @@ public class OrderServiceImpl implements OrderService{
             productRepository.save(product);
 
             // Remove items from cart
-            cartService.deleteProductFromCart(cart.getCartId(), item.getProduct().getProductId());
+            cartService.deleteProductFromCart(cart.get().getCartId(), item.getProduct().getProductId());
         });
 
-        // Send back the order summary
         OrderDTO orderDTO = modelMapper.map(savedOrder, OrderDTO.class);
-
         orderItems.forEach(item -> orderDTO.getOrderItems().add(modelMapper.map(item, OrderItemDTO.class)));
-
 
         orderDTO.setAddressId(addressId);
 
         return orderDTO;
-
     }
 }

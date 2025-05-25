@@ -1,13 +1,8 @@
 package com.ecommerce.project.payload;
 
-import com.ecommerce.project.model.Order;
-import com.ecommerce.project.model.Product;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 public class OrderRequestDTO {
     private Long addressId;
-    private String PaymentMethod;
+    private String paymentMethod;
     private String pgName;
     private String pgPaymentId;
     private String pgStatus;
@@ -18,7 +13,7 @@ public class OrderRequestDTO {
 
     public OrderRequestDTO(Long addressId, String paymentMethod, String pgName, String pgPaymentId, String pgStatus, String pgResponseMessage) {
         this.addressId = addressId;
-        PaymentMethod = paymentMethod;
+        this.paymentMethod = paymentMethod;
         this.pgName = pgName;
         this.pgPaymentId = pgPaymentId;
         this.pgStatus = pgStatus;
@@ -34,11 +29,11 @@ public class OrderRequestDTO {
     }
 
     public String getPaymentMethod() {
-        return PaymentMethod;
+        return paymentMethod;
     }
 
     public void setPaymentMethod(String paymentMethod) {
-        PaymentMethod = paymentMethod;
+        this.paymentMethod = paymentMethod;
     }
 
     public String getPgName() {
