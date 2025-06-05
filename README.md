@@ -1,6 +1,6 @@
 # 🛒 E-Commerce Backend API (Spring Boot)
 
-![E-Commerce Website Backend API](https://raw.githubusercontent.com/JessieEstrada/Images/main/E-Commerce-Website-Backend-API.png)
+![E-Commerce-Website-Backend-API](https://github.com/user-attachments/assets/d9e68a25-71b5-4b6f-a638-50052ff1c348)
 
 A production-grade e-commerce backend built with Spring Boot. This RESTful API handles product listings, user authentication with JWT, shopping cart operations, order processing, and role-based access — all designed with best practices and scalability in mind.
 
