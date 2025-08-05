@@ -28,35 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/*
-Real World Scenario
-Ahmet Sami · Lecture 201 · 19 days ago
-First of all course is awesome and thanks for your efforts. I just wanna add a comment about real world scenario.
-I think, setting the roles when registering is not a good idea. We should add another endpoint like "addRole" which
-can be usable only from the admin user. And the user should get only ROLE_USER when the registration is done.
-
-That's why I implemented the code block below to be able to give ROLE_USER to a person who registers:
-Role userRole = roleRepository.findByRoleName(AppRole.ROLE_USER)
-        .orElseGet(() -> {
-            Role newRole = new Role();
-            newRole.setRoleName(AppRole.ROLE_USER);
-            return roleRepository.save(newRole);
-        });
-
-
-Then we'll have another endpoint like addRole in RoleService something like this:
-public void addRoleToUser(Long userId, Long roleId) {
-    Role role = roleRepository.findById(roleId).orElseThrow(() -> new RoleNotFoundException("Role not found"));
-    User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-    if (!user.getRoles().contains(role)) {
-        role.addRoleToUser(user);
-        roleRepository.save(role);
-        userRepository.save(user);
-    }
-}
-*/
-
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

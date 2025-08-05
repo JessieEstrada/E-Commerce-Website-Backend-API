@@ -3,6 +3,7 @@ package com.ecommerce.project.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Order {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-    private Double totalAmount;
+    private BigDecimal totalAmount;
 
     private String orderStatus;
 
@@ -38,7 +39,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long orderId, String email, List<OrderItem> orderItems, LocalDate orderDate, Payment payment, Double totalAmount, String orderStatus, Address address) {
+    public Order(Long orderId, String email, List<OrderItem> orderItems, LocalDate orderDate, Payment payment, BigDecimal totalAmount, String orderStatus, Address address) {
         this.orderId = orderId;
         this.email = email;
         this.orderItems = orderItems;
@@ -89,11 +90,11 @@ public class Order {
         this.payment = payment;
     }
 
-    public Double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 

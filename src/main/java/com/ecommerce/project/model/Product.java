@@ -3,6 +3,7 @@ package com.ecommerce.project.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,11 @@ public class Product {
 
     private Integer quantity;
 
-    private double price;
+    private BigDecimal price;
 
-    private double discount;
+    private BigDecimal discount;
 
-    private double specialPrice;
+    private BigDecimal specialPrice;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -43,7 +44,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long productId, String productName, String image, String description, Integer quantity, double price, double discount, double specialPrice, Category category, User user, List<CartItem> products) {
+    public Product(Long productId, String productName, String image, String description, Integer quantity, BigDecimal price, BigDecimal discount, BigDecimal specialPrice, Category category, User user, List<CartItem> products) {
         this.productId = productId;
         this.productName = productName;
         this.image = image;
@@ -97,27 +98,27 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public double getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
-    public double getSpecialPrice() {
+    public BigDecimal getSpecialPrice() {
         return specialPrice;
     }
 
-    public void setSpecialPrice(double specialPrice) {
+    public void setSpecialPrice(BigDecimal specialPrice) {
         this.specialPrice = specialPrice;
     }
 

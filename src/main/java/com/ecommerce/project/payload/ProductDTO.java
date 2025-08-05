@@ -1,19 +1,21 @@
 package com.ecommerce.project.payload;
 
+import java.math.BigDecimal;
+
 public class ProductDTO {
     private Long productId;
     private String productName;
     private String image;
     private String description;
     private Integer quantity;
-    private double price;
-    private double discount;
-    private double specialPrice;
+    private BigDecimal price;
+    private BigDecimal discount;
+    private BigDecimal specialPrice;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(Long productId, String productName, String image, String description, Integer quantity, double price, double discount, double specialPrice) {
+    public ProductDTO(Long productId, String productName, String image, String description, Integer quantity, BigDecimal price, BigDecimal discount, BigDecimal specialPrice) {
         this.productId = productId;
         this.productName = productName;
         this.image = image;
@@ -64,27 +66,27 @@ public class ProductDTO {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public double getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
-    public double getSpecialPrice() {
+    public BigDecimal getSpecialPrice() {
         return specialPrice;
     }
 
-    public void setSpecialPrice(double specialPrice) {
+    public void setSpecialPrice(BigDecimal specialPrice) {
         this.specialPrice = specialPrice;
     }
 }

@@ -2,6 +2,7 @@ package com.ecommerce.project.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +20,12 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
-    private Double totalPrice = 0.0;
+    private BigDecimal totalPrice = new BigDecimal("0.0");
 
     public Cart() {
     }
 
-    public Cart(Long cartId, User user, List<CartItem> cartItems, Double totalPrice) {
+    public Cart(Long cartId, User user, List<CartItem> cartItems, BigDecimal totalPrice) {
         this.cartId = cartId;
         this.user = user;
         this.cartItems = cartItems;
@@ -55,11 +56,11 @@ public class Cart {
         this.cartItems = cartItems;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

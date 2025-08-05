@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,7 +73,12 @@ public class CartServiceImpl implements CartService{
 
         product.setQuantity(product.getQuantity());
 
-        cart.setTotalPrice(cart.getTotalPrice() + (product.getSpecialPrice() * quantity));
+        cart.setTotalPrice(
+                cart.getTotalPrice().add(
+                        product.getSpecialPrice().multiply(BigDecimal.valueOf(quantity))
+                )
+        );
+
 
         cartRepository.save(cart);
 
@@ -172,7 +178,12 @@ public class CartServiceImpl implements CartService{
             cartItem.setProductPrice(product.getSpecialPrice());
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
             cartItem.setDiscount(product.getDiscount());
-            cart.setTotalPrice(cart.getTotalPrice() + (cartItem.getProductPrice() * quantity));
+            cart.setTotalPrice(
+                    cart.getTotalPrice().add(
+                            cartItem.getProductPrice().multiply(BigDecimal.valueOf(quantity))
+                    )
+            );
+
             cartRepository.save(cart);
         }
 
@@ -210,8 +221,14 @@ public class CartServiceImpl implements CartService{
             throw new ResourceNotFoundException("Product", "productId", productId);
         }
 
-        cart.setTotalPrice(cart.getTotalPrice() -
-                (cartItem.getProductPrice() * cartItem.getQuantity()));
+        cart.setTotalPrice(
+                cart.getTotalPrice().subtract(
+                        cartItem.getProductPrice().multiply(
+                                BigDecimal.valueOf(cartItem.getQuantity())
+                        )
+                )
+        );
+
 
         cartItemRepository.deleteCartItemByProductIdAndCartId(cartId, productId);
 
@@ -233,13 +250,14 @@ public class CartServiceImpl implements CartService{
             throw new APIException("Product " + product.getProductName() + " not available in the cart!!!");
         }
 
-        double cartPrice = cart.getTotalPrice()
-                - (cartItem.getProductPrice() * cartItem.getQuantity());
+        BigDecimal cartPrice = cart.getTotalPrice()
+                .subtract(cartItem.getProductPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
 
         cartItem.setProductPrice(product.getSpecialPrice());
 
-        cart.setTotalPrice(cartPrice
-                + (cartItem.getProductPrice() * cartItem.getQuantity()));
+        BigDecimal updatedTotal = cartPrice.add(cartItem.getProductPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+
+        cart.setTotalPrice(updatedTotal);
 
         cartItem = cartItemRepository.save(cartItem);
     }
@@ -251,7 +269,7 @@ public class CartServiceImpl implements CartService{
         }
 
         Cart cart = new Cart();
-        cart.setTotalPrice(0.00);
+        cart.setTotalPrice(BigDecimal.valueOf(0.00));
         cart.setUser(authUtil.loggedInUser());
         return cartRepository.save(cart);
     }
